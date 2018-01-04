@@ -2581,7 +2581,11 @@ int waitForInterrupt (int pin, int mS)
 // Do a dummy read to clear the interrupt
 //	A one character read appars to be enough.
 
-  (void)read (fd, &c, 1) ;
+  if (x > 0)
+  {
+    lseek (fd, 0, SEEK_SET) ;	// Rewind
+    (void)read (fd, &c, 1) ;	// Read & clear
+  }
 
   return x ;
 }
